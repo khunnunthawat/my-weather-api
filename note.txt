@@ -1,0 +1,6 @@
+
+Tailwindcss
+https://tailwindcss.com/docs
+https://tailwindcomponents.com/cheatsheet/
+https://j-hiz.gitbook.io/tailwindtemplates/cards-coming-soon
+https://tailwindcomponents.com/components
