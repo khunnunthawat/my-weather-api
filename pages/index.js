@@ -4,8 +4,20 @@ import SearchBox from '../components/SearchBox';
 import WeatherCard from '../components/WeatherCard';
 import WeatherList from '../components/WeatherList';
 import WeatherNone from '../components/WeatherNone';
+import axios from 'axios';
 
 export default function Home() {
+
+  const onCitySearch = async city => {
+    const url =
+      'https://api.openweathermap.org/data/2.5/weather?q=' +
+      value +
+      '&appid=34a129808ffc8b02bfd0bffd5f7501a2';
+
+    const { data } = await axios.get(url);
+    console.log(data);
+  }
+
   return (
     <div>
       <Head>
@@ -25,7 +37,7 @@ export default function Home() {
           <div className='max-w-7xl mx-auto py-6 sm:px-6 lg:px-8'>
             {/* Replace with your content */}
             <div className='container'>
-              <SearchBox />
+              <SearchBox onCitySearch={onCitySearch} />
               <WeatherList />
               <WeatherCard />
               <WeatherNone />
@@ -36,3 +48,4 @@ export default function Home() {
     </div>
   );
 }
+

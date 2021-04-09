@@ -9,7 +9,7 @@ const WeatherList = () => {
       <div className='btn'>
         <button
           type='button'
-          class='px-6 py-1 text-sm text-gray-800 font-normal rounded-sm border border-gray-800 
+          className='px-6 py-1 text-sm text-gray-800 font-normal rounded-sm border border-gray-800 
           hover:text-white hover:bg-blue-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-4'
         >
           Clear

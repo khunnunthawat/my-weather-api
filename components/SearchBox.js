@@ -1,15 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-const SearchBox = () => {
+const SearchBox = ({ onCitySearch }) => {
+
+  const [city, setCity] = useState('');
+
+  const onSubmit = (city) => {
+    onCitySearch(city);
+    setCity('');
+  };
+
   return (
     <div className='pt-8'>
-      <form className='flex'>
+      <form onSubmit={(e) => e.preventDefault()} className='flex'>
         <input
           type='text'
           className='w-full pl-6 border-2 border-gray-300 rounded focus:outline-none focus:border-blue-500 transition-colors'
           placeholder='Search...'
+          value={city}
+          onChange={(e) => setCity(e.target.value)}
         />
         <button
+          onClick={() => onSubmit(city)}
           className='px-6 py-3 text-white font-bold rounded bg-pink-500
           hover:text-white hover:bg-green-500 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-4'
           type='button'
