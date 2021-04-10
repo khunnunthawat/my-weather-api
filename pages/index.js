@@ -1,22 +1,56 @@
 import Head from 'next/head';
-import React from 'react';
+import React, { useState } from 'react';
 import SearchBox from '../components/SearchBox';
-import WeatherCard from '../components/WeatherCard';
 import WeatherList from '../components/WeatherList';
-import WeatherNone from '../components/WeatherNone';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 export default function Home() {
+  const [weathers, setWeathers] = useState([]);
+  const [value, setValue] = useState('');
+  const [data, setData] = useState({});
 
-  const onCitySearch = async city => {
-    const url =
-      'https://api.openweathermap.org/data/2.5/weather?q=' +
-      value +
-      '&appid=34a129808ffc8b02bfd0bffd5f7501a2';
+  const searchCity = async (value) => {
+    setValue(value);
 
-    const { data } = await axios.get(url);
-    console.log(data);
-  }
+    try {
+      const url =
+        'https://api.openweathermap.org/data/2.5/weather?q=' +
+        value +
+        '&appid=2c486a422a8abed95fca0bbd2c35fc80';
+
+      const { data } = await axios.get(url);
+      console.log(data);
+
+      setData(data);
+
+      const id = Math.floor(Math.random() * 10000) + 1;
+      const dateObj = new Date();
+      const time = `${dateObj.getHours()}:${dateObj.getMinutes()}`;
+      const newCard = { id, time, data };
+
+      setWeathers([newCard, ...weathers]);
+    } catch {
+      Swal.fire({
+        title: 'Error',
+        text: 'City not found!',
+        icon: 'error',
+        confirmButtonText: 'ok',
+      });
+    }
+
+    const id = Math.floor(Math.random() * 10000) + 1;
+    const dateObj = new Date();
+    const time = `${dateObj.getHours()}:${dateObj.getMinutes()}`;
+    const newCard = { id, time, data };
+
+    setWeathers([...weathers, newCard]);
+  };
+
+  const clearSubmit = () => {
+    // clear all history
+    setWeathers([]);
+  };
 
   return (
     <div>
@@ -37,10 +71,8 @@ export default function Home() {
           <div className='max-w-7xl mx-auto py-6 sm:px-6 lg:px-8'>
             {/* Replace with your content */}
             <div className='container'>
-              <SearchBox onCitySearch={onCitySearch} />
-              <WeatherList />
-              <WeatherCard />
-              <WeatherNone />
+              <SearchBox searchCity={searchCity} />
+              <WeatherList weathers={weathers} clearSubmit={clearSubmit} />
             </div>
           </div>
         </main>
@@ -48,4 +80,3 @@ export default function Home() {
     </div>
   );
 }
-
