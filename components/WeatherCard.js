@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 
 const WeatherCard = ({ card }) => {
-
   const data = card.data;
-
+  console.log(data, 'x');
   return (
     <div className='pt-8'>
       <div className='grid grid-cols-12'>
@@ -13,7 +12,7 @@ const WeatherCard = ({ card }) => {
               <div className='text-2xl'>{data.name}</div>
               <div className='text-base'>{`${data.weather[0].main} - ${data.weather[0].description}`}</div>
               <br />
-              <div className='font-medium text-5xl'>{`${data.temp} °C`}</div>
+              <div className='font-medium text-5xl'>{`${data.main.temp} °C`}</div>
             </div>
             <div className='flex flex-col'>
               <div className='icons'>

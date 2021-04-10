@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SearchBox from '../components/SearchBox';
 import WeatherList from '../components/WeatherList';
 import axios from 'axios';
@@ -9,6 +9,10 @@ export default function Home() {
   const [weathers, setWeathers] = useState([]);
   const [value, setValue] = useState('');
   const [data, setData] = useState({});
+
+  useEffect(() => {
+    // console.log(weathers);
+  }, [weathers]);
 
   const searchCity = async (value) => {
     setValue(value);
@@ -20,14 +24,15 @@ export default function Home() {
         '&appid=2c486a422a8abed95fca0bbd2c35fc80';
 
       const { data } = await axios.get(url);
-      console.log(data);
+      // console.log(data);
 
       setData(data);
 
       const id = Math.floor(Math.random() * 10000) + 1;
       const dateObj = new Date();
       const time = `${dateObj.getHours()}:${dateObj.getMinutes()}`;
-      const newCard = { id, time, data };
+      const temp = parseInt(data.main.temp - 273);
+      const newCard = { id, time, data, temp };
 
       setWeathers([newCard, ...weathers]);
     } catch {
@@ -38,13 +43,6 @@ export default function Home() {
         confirmButtonText: 'ok',
       });
     }
-
-    const id = Math.floor(Math.random() * 10000) + 1;
-    const dateObj = new Date();
-    const time = `${dateObj.getHours()}:${dateObj.getMinutes()}`;
-    const newCard = { id, time, data };
-
-    setWeathers([...weathers, newCard]);
   };
 
   const clearSubmit = () => {
