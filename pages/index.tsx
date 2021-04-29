@@ -6,7 +6,14 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 
 export default function Home() {
-  const [weathers, setWeathers] = useState([]);
+  const [weathers, setWeathers] = useState<
+    {
+      id: number;
+      time: string;
+      data: any;
+      temp: number;
+    }[]
+  >([]);
   const [value, setValue] = useState('');
   const [data, setData] = useState({});
 
@@ -14,7 +21,7 @@ export default function Home() {
     // console.log(weathers);
   }, [weathers]);
 
-  const searchCity = async (value) => {
+  const searchCity = async (value: string) => {
     setValue(value);
 
     try {
@@ -31,7 +38,7 @@ export default function Home() {
       const id = Math.floor(Math.random() * 10000) + 1;
       const dateObj = new Date();
       const time = `${dateObj.getHours()}:${dateObj.getMinutes()}`;
-      const temp = parseInt(data.main.temp - 273);
+      const temp = parseInt(data.main.temp) - 273;
       const newCard = { id, time, data, temp };
 
       setWeathers([newCard, ...weathers]);
@@ -51,30 +58,28 @@ export default function Home() {
   };
 
   return (
-    <div>
+    <>
       <Head>
         <title>Daytech Weather</title>
         <link rel='icon' href='/favicon.ico' />
       </Head>
-      <div className='bg-gray-50'>
-        <header className='bg-white shadow'>
-          <div className='max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8'>
-            <h1 className='text-3xl font-bold text-gray-900'>
-              Daytech Weather °
-            </h1>
-            {/* <img src='/img/10d@2x.png' alt='' /> */}
-          </div>
-        </header>
-        <main>
-          <div className='max-w-7xl mx-auto py-6 sm:px-6 lg:px-8'>
-            {/* Replace with your content */}
-            <div className='container'>
-              <SearchBox searchCity={searchCity} />
-              <WeatherList weathers={weathers} clearSubmit={clearSubmit} />
+      <nav className='mb-4 bg-blue-600'>
+        <div className='2xl:max-w-6xl xl:max-w-4xl lg:max-w-4xl md:max-w-2xl mx-auto sm:px-6 md:px-0 lg:px-2 xl:px-0'>
+          <div className='relative flex items-center justify-between h-16'>
+            <div className='absolute inset-y-0 left-0 flex items-center'>
+              <h1 className='text-white text-xl font-bold'>
+                Daytech Weather °
+              </h1>
             </div>
           </div>
-        </main>
-      </div>
-    </div>
+        </div>
+      </nav>
+      <main className='my-1'>
+        <div className='mx-auto w-5/6 md:w-full 2xl:max-w-7xl xl:max-w-6xl'>
+          <SearchBox searchCity={searchCity} />
+          <WeatherList weathers={weathers} clearSubmit={clearSubmit} />
+        </div>
+      </main>
+    </>
   );
 }
